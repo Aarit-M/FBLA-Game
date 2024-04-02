@@ -23,7 +23,7 @@ public class InstructSceneFadeOut : MonoBehaviour
          
             if (objectColor == targetColor)
             {
-                Invoke("FadeOut", 15f);
+                //Invoke("FadeOut", 15f);
             }
         }
     }

@@ -23,6 +23,16 @@ public class Typewriter : MonoBehaviour
 
         // Set the initial color of textMeshProText to transparent
         textMeshProText.color = transparentColor;
+        StartTypewriterEffect();
+
+        if (isTextTransparent)
+        {
+            textMeshProText.color = blackColor;
+        }
+        else
+        {
+            textMeshProText.color = transparentColor;
+        }
     }
 
     public void StartTypewriterEffect()
@@ -42,59 +52,5 @@ public class Typewriter : MonoBehaviour
         }
     }
 
-    public void DetectAndHandleColor(Color targetColor)
-    {
-        // Get the renderer component of the object
-        Renderer renderer = mControl.GetComponent<Renderer>();
-
-        // Ensure renderer is not null and it has a material
-        if (renderer != null && renderer.material != null)
-        {
-            // Get the color of the material
-            Color objectColor = renderer.material.color;
-
-            // Check if the color matches the target color
-            if (objectColor == targetColor)
-            {
-                if (typeOnce == false)
-                {
-                    typeOnce = true;
-                    StartTypewriterEffect();
-
-                    // Toggle text color between transparent and black
-                    if (isTextTransparent)
-                    {
-                        textMeshProText.color = blackColor;
-                    }
-                    else
-                    {
-                        textMeshProText.color = transparentColor;
-                    }
-
-                    //isTextTransparent = !isTextTransparent; // Toggle the flag
-                }
-            }
-        }
-    }
-
-    void Update()
-    {
-        DetectAndHandleColor(Color.green);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartTypewriterEffect();
-
-            // Toggle text color between transparent and black
-            if (isTextTransparent)
-            {
-                textMeshProText.color = blackColor;
-            }
-            else
-            {
-                textMeshProText.color = transparentColor;
-            }
-
-            isTextTransparent = !isTextTransparent; // Toggle the flag
-        }
-    }
+   
 }

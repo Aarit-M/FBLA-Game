@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour
 {
     [Header("Volume")]
     [Header("Area")]
-    [SerializeField] private MusicArea area;
+    //[SerializeField] private MusicArea area;
     [Range(0, 1)]
     public float masterVolume = 1;
     [Range(0, 1)]
@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     private Bus musicBus;
     private Bus ambienceBus;
     private Bus sfxBus;
+    public GameObject SceneSpecifier;
 
     private List<EventInstance> eventInstances;
     private List<StudioEventEmitter> eventEmitters;
@@ -29,7 +30,6 @@ public class AudioManager : MonoBehaviour
     private EventInstance ambienceEventInstance;
     private EventInstance musicEventInstance;
 
-    public GameObject mControl;
     public static AudioManager instance { get; private set; }
 
     private void Awake()
@@ -48,7 +48,33 @@ public class AudioManager : MonoBehaviour
     {
         RuntimeManager.PlayOneShot(sound, worldPos);
     }
-    
+
+    public void SceneSounds()
+    {
+
+        Renderer renderer = SceneSpecifier.GetComponent<Renderer>();
+
+
+        if (renderer != null && renderer.material != null)
+        {
+
+            Color objectColor = renderer.material.color;
+
+
+            if (objectColor == Color.green)
+            {
+                musicEventInstance.setParameterByName("bgmusicarea", 1f);
+
+            }
+
+            if (objectColor == Color.cyan)
+            {
+                musicEventInstance.setParameterByName("bgmusicarea", 2f);
+            }
+        }
+    }
+
+ 
     public EventInstance CreateInstance(EventReference eventReference)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
@@ -61,10 +87,10 @@ public class AudioManager : MonoBehaviour
         InitializeMusic(FMODEvents.instance.music);
     }
 
-    public void SetBGMusic(MusicArea area)
-    {
+    ///public void SetBGMusic(MusicArea area)
+    //{
         //musicEventInstance.setParameterByName("bgmusicarea", (float) area);
-    }
+    //}
 
     private void InitializeMusic(EventReference musicEventReference)
     {
@@ -95,51 +121,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void DetectAndHandleColor(Color targetColor)
+
+    private void Update()
     {
-        // Get the renderer component of the object
-        Renderer renderer = mControl.GetComponent<Renderer>();
-
-        // Ensure renderer is not null and it has a material
-        if (renderer != null && renderer.material != null)
-        {
-            // Get the color of the material
-            Color objectColor = renderer.material.color;
-
-            // Check if the color matches the target color
-            if (objectColor == targetColor)
-            {
-                musicEventInstance.setParameterByName("bgmusicarea", 1f);
-            }
-        }
+        SceneSounds();
+        
     }
 
-    void Update()
-    {
-        DetectAndHandleColor(Color.green);
-
-        if (mControl != null)
-        {
-            // Get the renderer component of the object
-            Renderer renderer = mControl.GetComponent<Renderer>();
-
-            // Ensure renderer is not null and it has a material
-            if (renderer != null && renderer.material != null)
-            {
-                // Get the color of the material
-                Color objectColor = renderer.material.color;
-
-                // Check if the color is red
-                if (objectColor == Color.red)
-                {
-
-                    musicEventInstance.setParameterByName("bgmusicarea", 2f);
-                }
-            }
-
-        }
-
-    }
 
     private void OnDestroy()
     {

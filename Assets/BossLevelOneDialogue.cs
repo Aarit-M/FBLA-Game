@@ -55,7 +55,7 @@ public class BossLevelOneDialogue : MonoBehaviour
         
                 Color objectColor = renderer.material.color;
 
-                if (objectColor == Color.red)
+                if (objectColor == Color.cyan)
                 {
                     if (didNotSpeakYet == true)
                     {

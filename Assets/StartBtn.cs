@@ -43,6 +43,7 @@ public class StartBtn : MonoBehaviour
     void OnMouseDown()
     {
         AudioManager.instance.PlayOneShot(startSelectSound, this.transform.position);
+        //gameObject.SetActive(false);
         ChangeMColor(Color.green);
 
     }
